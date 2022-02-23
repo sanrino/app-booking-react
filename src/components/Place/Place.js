@@ -19,14 +19,18 @@ const Place = ({ place, index, bookingPlace }) => {
     );
   };
 
+  const placeStatusValue = {
+    [StatusPlace.DEFAULT]: "place--default",
+    [StatusPlace.RESERVED]: "place--reserved",
+    [StatusPlace.SOLVED]: "place--solved"
+  }
+
   return (
     <div
       className={
         classNames([
           'place',
-          place.status === StatusPlace.DEFAULT ? 'place--default' : '',
-          place.status === StatusPlace.RESERVED ? 'place--reserved' : '',
-          place.status === StatusPlace.SOLVED ? 'place--solved' : ''
+          placeStatusValue[place.status]
         ])
       }
       onClick={bookingPlace}

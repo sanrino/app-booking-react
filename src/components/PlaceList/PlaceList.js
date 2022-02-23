@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
-import { Alert } from '@mui/material';
 import Button from '@mui/material/Button';
 
 import { selectPlace, buyPlaces, notificationUpdate } from '../../store/placesSlice';
 import { StatusPlace } from "../../data/places";
 import Place from "../Place/Place";
-
 import './PlaceList.scss'
+
+import AlertMessage from '../AlertMessage/AlertMessage';
 
 const PlaceList = () => {
   const places = useSelector(state => state.places.places);
@@ -42,23 +41,27 @@ const PlaceList = () => {
     setTimeout(() => {
       dispatch(notificationUpdate());
     }, 3000);
+    y()
   }, [notification]);
+
+  const y = () => {
+    const tsa = new Promise(resolve => {
+      setTimeout(resolve, 3000)
+    })
+
+    return tsa;
+  };
 
   return (
     <div className='main'>
       {
-        (success && notification) &&
-        <Alert className='alert' severity="success">Payment successfully!</Alert>
-      }
-
-      {
-        (!success && notification) &&
-        <Alert className='alert' severity="error">Payment failed!</Alert>
+        (success && notification || !success && notification) &&
+        <AlertMessage alertName={success} />
       }
 
       <div className='places-list'>
         {
-          places.map((place, index, i) => {
+          places.map((place, index) => {
             return (
               <Place
                 key={place.id}
@@ -76,7 +79,7 @@ const PlaceList = () => {
           <Button
             variant='contained'
             color="success"
-            onClick={() => purchasePlace()}
+            onClick={purchasePlace}
           >
             Buy
           </Button>
